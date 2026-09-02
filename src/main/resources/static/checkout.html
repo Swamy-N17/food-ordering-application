@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FoodHub | Checkout</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/checkout.css">
+</head>
+<body>
+<div id="appHeader"></div>
+
+<main class="container">
+    <div class="page-title">
+        <p class="eyebrow">CHECKOUT</p>
+        <h1>Finish your order</h1>
+        <p class="muted">Review delivery details, choose payment and place your order.</p>
+    </div>
+
+    <div class="checkout-layout">
+        <section class="card checkout-card">
+
+            <div class="delivery-card checkout-delivery">
+                <div>
+                    <p class="eyebrow">DELIVERY DETAILS</p>
+                    <h2>Deliver to</h2>
+                </div>
+                <div class="delivery-info">
+                    <strong id="customerName">Customer</strong>
+                    <span>📞 <span id="customerContact">-</span></span>
+                    <span>📍 <span id="customerAddress">Loading address...</span></span>
+                </div>
+                <div id="addressMessage" class="message"></div>
+            </div>
+
+            <div class="checkout-divider"></div>
+
+            <h2>Payment method</h2>
+            <p class="muted small">
+                This student project uses a demo payment flow. No real money is charged.
+            </p>
+
+            <div class="method-grid">
+                <label class="method">
+                    <input type="radio" name="method" value="UPI" checked>
+                    <span>📱</span>
+                    <b>UPI</b>
+                    <small>Demo payment</small>
+                </label>
+
+                <label class="method">
+                    <input type="radio" name="method" value="CREDIT_CARD">
+                    <span>💳</span>
+                    <b>Credit Card</b>
+                    <small>Demo payment</small>
+                </label>
+
+                <label class="method">
+                    <input type="radio" name="method" value="DEBIT_CARD">
+                    <span>💳</span>
+                    <b>Debit Card</b>
+                    <small>Demo payment</small>
+                </label>
+
+                <label class="method">
+                    <input type="radio" name="method" value="CASH">
+                    <span>💵</span>
+                    <b>Cash</b>
+                    <small>Pay on delivery</small>
+                </label>
+            </div>
+
+            <div id="paymentNote" class="payment-note"></div>
+            <div id="checkoutMessage" class="message"></div>
+
+            <button id="placeOrderBtn" class="btn primary full">
+                Pay &amp; Place Order
+            </button>
+        </section>
+
+        <aside class="summary-card checkout-summary">
+            <p class="eyebrow">ORDER SUMMARY</p>
+            <h2 id="checkoutTotal">₹0.00</h2>
+            <div id="checkoutItems" class="mini-items"></div>
+        </aside>
+    </div>
+</main>
+
+<script src="/js/common.js"></script>
+<script src="/js/checkout.js"></script>
+</body>
+</html>

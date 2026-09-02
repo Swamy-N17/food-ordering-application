@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FoodHub | Home</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/customer.css">
+</head>
+<body>
+<div id="appHeader"></div>
+
+<main class="container">
+    <section class="hero">
+        <div>
+            <p class="eyebrow">DELIVERED TO YOUR DOOR</p>
+            <h1>What are you<br><span>craving today?</span></h1>
+            <p class="muted">
+                Choose a restaurant and order something delicious.
+            </p>
+            <a class="btn primary" href="#restaurants">Explore restaurants</a>
+        </div>
+        <div class="hero-art">🍜</div>
+    </section>
+
+    <section id="restaurants">
+        <div class="section-head">
+            <div>
+                <p class="eyebrow">EXPLORE</p>
+                <h2>Restaurants near you</h2>
+            </div>
+            <input id="restaurantSearch" class="search"
+                   placeholder="Search restaurants...">
+        </div>
+
+        <div id="restaurantGrid" class="restaurant-grid"></div>
+        <div id="customerMessage" class="message"></div>
+    </section>
+</main>
+
+<script src="/js/common.js"></script>
+<script src="/js/customer-dashboard.js"></script>
+</body>
+</html>

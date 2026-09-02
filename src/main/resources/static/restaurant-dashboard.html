@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FoodHub | Partner Dashboard</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/restaurant.css">
+</head>
+<body>
+<div id="appHeader"></div>
+
+<main class="container">
+
+    <section class="partner-hero">
+        <div>
+            <p class="eyebrow">RESTAURANT DASHBOARD</p>
+            <h1 id="restaurantName">Welcome</h1>
+            <p id="restaurantLocation" class="muted"></p>
+        </div>
+
+        <div class="rating-box">
+            <strong>★</strong>
+            <span id="restaurantRating">-</span>
+            <small>Rating</small>
+        </div>
+    </section>
+
+    <section class="stats">
+        <div>
+            <span>Menu items</span>
+            <strong id="menuCount">0</strong>
+        </div>
+        <div>
+            <span>Orders</span>
+            <strong id="orderCount">0</strong>
+        </div>
+        <div>
+            <span>Active orders</span>
+            <strong id="pendingCount">0</strong>
+        </div>
+    </section>
+
+    <section id="menu" class="dashboard-section">
+        <div class="section-head">
+            <div>
+                <p class="eyebrow">MENU</p>
+                <h2>Manage your menu</h2>
+            </div>
+            <button id="addItemBtn" class="btn primary">
+                + Add item
+            </button>
+        </div>
+
+        <div id="menuTable" class="table-card"></div>
+    </section>
+
+    <section id="orders" class="dashboard-section">
+        <div class="section-head">
+            <div>
+                <p class="eyebrow">ORDERS</p>
+                <h2>Incoming orders</h2>
+            </div>
+            <button id="refreshOrders" type="button" class="btn ghost">
+                Refresh
+            </button>
+        </div>
+
+        <div id="restaurantOrders" class="restaurant-orders"></div>
+    </section>
+
+    <div id="restaurantMessage" class="message"></div>
+</main>
+
+<div class="modal hidden" id="itemModal">
+    <div class="modal-card">
+        <button class="modal-close" id="closeItem">×</button>
+
+        <p class="eyebrow">MENU ITEM</p>
+        <h2>Add menu item</h2>
+
+        <form id="itemForm">
+            <label>
+                Item name
+                <input id="itemName"
+                       placeholder="e.g. Masala Dosa"
+                       required>
+            </label>
+
+            <label>
+                Price
+                <input id="itemPrice"
+                       type="number"
+                       min="1"
+                       step="0.01"
+                       required>
+            </label>
+
+            <label class="check">
+                <input id="itemAvailability"
+                       type="checkbox"
+                       checked>
+                Available
+            </label>
+
+            <button class="btn primary full" type="submit">
+                Add item
+            </button>
+        </form>
+    </div>
+</div>
+
+<script src="/js/common.js"></script>
+<script src="/js/restaurant-dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FoodHub | Restaurant Profile</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/profile.css">
+</head>
+<body>
+<div id="appHeader"></div>
+
+<main class="container profile-page">
+    <div class="page-title">
+        <p class="eyebrow">PARTNER ACCOUNT</p>
+        <h1>Restaurant profile</h1>
+        <p class="muted">Manage your restaurant information and rating.</p>
+    </div>
+
+    <section class="profile-card">
+        <div class="profile-avatar" id="profileInitial">F</div>
+        <div>
+            <h2 id="profileHeading">Restaurant</h2>
+            <p class="muted">FoodHub Partner account</p>
+        </div>
+
+        <form id="restaurantProfileForm">
+            <label>Name<input id="rName" required></label>
+            <label>Email<input id="rEmail" type="email" required></label>
+            <label>Location<input id="rLocation" required></label>
+            <label>Rating<input id="rRating" type="number" min="1" max="5" required></label>
+
+            <button class="btn primary" type="submit">
+                Save changes
+            </button>
+        </form>
+
+        <div id="profileMessage" class="message"></div>
+    </section>
+</main>
+
+<script src="/js/common.js"></script>
+<script src="/js/restaurant-profile.js"></script>
+</body>
+</html>

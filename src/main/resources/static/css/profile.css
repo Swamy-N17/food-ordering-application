@@ -1,0 +1,53 @@
+/* Profile */
+
+.profile-page {
+    max-width: 850px;
+}
+
+.profile-card {
+    padding: 30px;
+    margin-bottom: 60px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 5px 18px;
+}
+
+.profile-avatar {
+    width: 70px;
+    height: 70px;
+    border-radius: 22px;
+    background: var(--soft);
+    color: var(--accent);
+    display: grid;
+    place-items: center;
+    font-size: 30px;
+    font-weight: 900;
+    grid-row: span 2;
+}
+
+.profile-card h2 {
+    margin: 5px 0 0;
+}
+
+.profile-card > form,
+.profile-card > .message {
+    grid-column: 1 / -1;
+}
+
+.profile-card form {
+    margin-top: 25px;
+}
+
+.profile-card form .btn {
+    min-width: 150px;
+}
+
+@media (max-width: 550px) {
+    .profile-card {
+        display: block;
+    }
+
+    .profile-avatar {
+        margin-bottom: 15px;
+    }
+}

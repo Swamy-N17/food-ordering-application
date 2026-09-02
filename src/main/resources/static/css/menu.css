@@ -1,0 +1,129 @@
+/* Restaurant menu */
+
+.restaurant-hero {
+    margin-top: 30px;
+    padding: 45px 50px;
+    border-radius: 25px;
+    background: #211f1d;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.restaurant-hero h1 {
+    margin: 0 0 10px;
+    font-size: 42px;
+}
+
+.restaurant-hero p:not(.eyebrow) {
+    color: #d1cbc6;
+}
+
+.hero-rating {
+    margin-left: 12px;
+    color: #ffb294;
+}
+
+.restaurant-hero-icon {
+    font-size: 85px;
+}
+
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding-bottom: 55px;
+}
+
+.menu-card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+
+.menu-card.unavailable {
+    opacity: 0.65;
+}
+
+.food-visual {
+    height: 190px;
+    background: linear-gradient(135deg, #fff1e9, #ffe0d2);
+    display: grid;
+    place-items: center;
+    position: relative;
+}
+
+.food-visual > span {
+    font-size: 76px;
+}
+
+.availability {
+    position: absolute;
+    left: 12px;
+    bottom: 12px;
+    background: #fff;
+    border-radius: 99px;
+    padding: 7px 10px;
+    font-size: 10px;
+    font-weight: 900;
+}
+
+.menu-body {
+    padding: 20px;
+}
+
+.menu-body h3 {
+    margin: 0 0 8px;
+    font-size: 19px;
+}
+
+.price-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.price {
+    font-size: 21px;
+}
+
+.qty-add {
+    display: flex;
+    gap: 7px;
+    align-items: center;
+}
+
+.qty-add input {
+    width: 60px;
+    padding: 10px 8px;
+    text-align: center;
+}
+
+.qty-add .btn {
+    padding: 10px 13px;
+}
+
+@media (max-width: 900px) {
+    .menu-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 650px) {
+    .restaurant-hero {
+        padding: 30px 25px;
+    }
+
+    .restaurant-hero-icon {
+        display: none;
+    }
+
+    .menu-grid {
+        grid-template-columns: 1fr;
+    }
+}

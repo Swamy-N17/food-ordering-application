@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FoodHub | Profile</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/profile.css">
+</head>
+<body>
+<div id="appHeader"></div>
+
+<main class="container profile-page">
+    <div class="page-title">
+        <p class="eyebrow">ACCOUNT</p>
+        <h1>Your profile</h1>
+        <p class="muted">Keep your customer details up to date.</p>
+    </div>
+
+    <section class="profile-card">
+        <div class="profile-avatar" id="profileInitial">F</div>
+        <div>
+            <h2 id="profileHeading">Customer</h2>
+            <p class="muted">Customer account</p>
+        </div>
+
+        <form id="customerProfileForm">
+            <label>Name<input id="pName" required></label>
+            <label>Email<input id="pEmail" type="email" required></label>
+            <label>Contact<input id="pContact" type="tel" maxlength="10" required></label>
+            <label>Address<textarea id="pAddress" rows="3"></textarea></label>
+
+            <button class="btn primary" type="submit">
+                Save changes
+            </button>
+        </form>
+
+        <div id="profileMessage" class="message"></div>
+    </section>
+</main>
+
+<script src="/js/common.js"></script>
+<script src="/js/customer-profile.js"></script>
+</body>
+</html>

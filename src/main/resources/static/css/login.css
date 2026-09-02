@@ -1,0 +1,316 @@
+/* Login page */
+
+.login-page {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #fff8f4, #fbfaf8, #f3eee9);
+    display: grid;
+    place-items: center;
+    padding: 25px;
+}
+
+.login-shell {
+    width: min(1060px, 100%);
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    background: #fff;
+    border-radius: 28px;
+    overflow: hidden;
+    box-shadow: 0 30px 90px rgba(42, 30, 20, 0.13);
+}
+
+.login-intro {
+    padding: 65px;
+    background: #211f1d;
+    color: #fff;
+}
+
+.large-brand {
+    color: #fff;
+}
+
+.login-intro .light {
+    color: #ff8a67;
+    margin-top: 65px;
+}
+
+.login-intro h1 {
+    font-size: 58px;
+    line-height: 0.98;
+    letter-spacing: -2.5px;
+    margin: 15px 0 20px;
+}
+
+.login-intro h1 span {
+    color: #ff8a67;
+}
+
+.login-intro > p:not(.eyebrow) {
+    color: #c9c4bf;
+    max-width: 450px;
+    line-height: 1.7;
+}
+
+.food-strip {
+    display: flex;
+    gap: 14px;
+    margin-top: 45px;
+}
+
+.food-strip span {
+    width: 72px;
+    height: 72px;
+    border-radius: 20px;
+    background: #35312e;
+    display: grid;
+    place-items: center;
+    font-size: 35px;
+}
+
+.login-card {
+    padding: 55px;
+}
+
+.login-card h2 {
+    font-size: 34px;
+    margin: 8px 0;
+}
+
+.login-card label {
+    margin-top: 18px;
+}
+
+.mobile-brand {
+    display: none;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.register-links {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    margin-top: 22px;
+}
+
+.text-btn {
+    border: 0;
+    background: none;
+    color: #5b5f67;
+    font-size: 12px;
+    text-decoration: underline;
+    padding: 0;
+}
+
+.modal-subtitle {
+    color: var(--muted);
+    margin-top: -2px;
+    margin-bottom: 22px;
+    font-size: 13px;
+}
+
+
+/* ---------- Forgot Password Link ---------- */
+
+.forgot-password {
+    display: block;
+    width: fit-content;
+    margin-top: 10px;
+    margin-bottom: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.5;
+    color: var(--ink);
+    text-decoration: none;
+    transition:
+        color 0.18s ease,
+        transform 0.18s ease;
+}
+
+.forgot-password:hover {
+    transform: translateX(2px);
+    color: #e44725;
+}
+
+
+/* ---------- Authentication Button Animation ---------- */
+
+.login-card .btn.primary {
+    transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease,
+        background-color 0.18s ease;
+}
+
+.login-card .btn.primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.14);
+}
+
+.login-card .btn.primary:active {
+    transform: translateY(0);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.10);
+}
+
+.login-card .btn.primary:disabled {
+    transform: none;
+    box-shadow: none;
+    cursor: not-allowed;
+}
+
+
+/* ---------- Forgot / Reset Password Pages ---------- */
+
+.auth-page {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+    background: #f8f7f5;
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 480px;
+    box-sizing: border-box;
+    background: #fff;
+    padding: 38px;
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    box-shadow: var(--shadow);
+}
+
+.auth-heading {
+    margin: 28px 0 24px;
+}
+
+.auth-heading h1 {
+    margin: 8px 0 10px;
+}
+
+.auth-heading p {
+    margin: 0;
+}
+
+.auth-card form {
+    display: grid;
+    gap: 18px;
+}
+
+.auth-card label {
+    display: grid;
+    gap: 7px;
+    font-weight: 700;
+    font-size: 13px;
+}
+
+.auth-card input,
+.auth-card select {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.auth-card .btn.primary {
+    transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease,
+        background-color 0.18s ease;
+}
+
+.auth-card .btn.primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.14);
+}
+
+.auth-card .btn.primary:active {
+    transform: translateY(0);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.10);
+}
+
+.auth-card .btn.primary:disabled {
+    transform: none;
+    box-shadow: none;
+    cursor: not-allowed;
+}
+
+.auth-footer {
+    margin-top: 22px;
+    text-align: center;
+    font-size: 13px;
+}
+
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 800px) {
+
+    .login-shell {
+        grid-template-columns: 1fr;
+    }
+
+    .login-intro {
+        display: none;
+    }
+
+    .mobile-brand {
+        display: flex;
+    }
+
+    .login-card {
+        padding: 35px 25px;
+    }
+
+    .register-links {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 600px) {
+
+    .login-page {
+        padding: 15px;
+    }
+
+    .login-card {
+        padding: 30px 22px;
+    }
+
+    .auth-page {
+        padding: 25px 15px;
+        align-items: flex-start;
+    }
+
+    .auth-card {
+        max-width: 100%;
+        padding: 28px 22px;
+        border-radius: 18px;
+    }
+
+    .auth-heading h1 {
+        font-size: 30px;
+    }
+}
+
+@media (max-width: 400px) {
+
+    .login-page {
+        padding: 10px;
+    }
+
+    .login-card {
+        padding: 25px 18px;
+    }
+
+    .auth-page {
+        padding: 18px 10px;
+    }
+
+    .auth-card {
+        padding: 24px 18px;
+    }
+
+    .auth-heading h1 {
+        font-size: 27px;
+    }
+}

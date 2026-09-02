@@ -1,0 +1,114 @@
+/* Customer orders */
+
+.orders-list {
+    padding-bottom: 60px;
+}
+
+.order-card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 22px;
+    margin-bottom: 15px;
+    box-shadow: var(--shadow);
+}
+
+.order-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    align-items: flex-start;
+}
+
+.order-top h3 {
+    margin: 0 0 5px;
+    font-size: 20px;
+}
+
+.order-meta {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.status {
+    display: inline-flex;
+    padding: 7px 11px;
+    border-radius: 99px;
+    font-size: 10px;
+    font-weight: 900;
+    background: #f3f4f6;
+    text-transform: uppercase;
+}
+
+.status.placed,
+.status.confirmed {
+    background: #fff4df;
+    color: #9a6500;
+}
+
+.status.preparing,
+.status.prepared {
+    background: #fff0e2;
+    color: #9a4b00;
+}
+
+.status.out-for-delivery,
+.status.delivered {
+    background: #e8f7ef;
+    color: var(--green);
+}
+
+.status.cancelled {
+    background: #fdecec;
+    color: var(--red);
+}
+
+.order-items {
+    margin: 20px 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+}
+
+.order-item {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 11px 0;
+    font-size: 13px;
+}
+
+.order-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.order-total {
+    color: var(--ink);
+    font-size: 18px;
+}
+
+/* ---------- Delivery information ---------- */
+
+.delivery-summary {
+    margin: 16px 0;
+    padding: 13px 15px;
+    border-radius: 14px;
+    background: #fff8f4;
+    border: 1px solid #f2ddd5;
+}
+
+.delivery-summary > div {
+    display: grid;
+    gap: 5px;
+}
+
+.delivery-label {
+    color: var(--accent);
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+}
