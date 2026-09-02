@@ -183,7 +183,7 @@ public class AuthService {
 
 		passwordResetTokenRepository.save(resetToken);
 
-		String resetLink = "http://localhost:8080/reset-password.html?token=" + resetToken.getToken();
+		String resetLink = "https://foodhub-7zkg.onrender.com/reset-password.html?token=" + resetToken.getToken();
 
 		emailService.sendPasswordResetEmail(email, resetLink);
 

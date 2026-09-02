@@ -1,31 +1,27 @@
 package com.jsp.foodorderingapplication.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 @Service
 public class EmailService {
 
-    @Autowired
-    private JavaMailSender mailSender;
+    @Value("${BREVO_API_KEY}")
+    private String brevoApiKey;
 
-    @Value("${spring.mail.username}")
-    private String mailUsername;
+    @Value("${FOODHUB_MAIL_USERNAME}")
+    private String senderEmail;
 
-    public void sendPasswordResetEmail(
-            String email,
-            String resetLink) {
+    public void sendPasswordResetEmail(String email, String resetLink) {
 
-        SimpleMailMessage message = new SimpleMailMessage();
+        String subject = "FoodHub - Password Reset";
 
-        message.setFrom(mailUsername);
-        message.setTo(email);
-        message.setSubject("FoodHub - Password Reset");
-
-        message.setText(
+        String textContent =
                 "Hello,\n\n"
                 + "We received a request to reset your FoodHub password.\n\n"
                 + "Click the link below to reset your password:\n\n"
@@ -35,9 +31,62 @@ public class EmailService {
                 + "If you did not request a password reset, "
                 + "you can safely ignore this email.\n\n"
                 + "Regards,\n"
-                + "FoodHub Team"
-        );
+                + "FoodHub Team";
 
-        mailSender.send(message);
+        String jsonBody = """
+                {
+                  "sender": {
+                    "name": "FoodHub",
+                    "email": "%s"
+                  },
+                  "to": [
+                    {
+                      "email": "%s"
+                    }
+                  ],
+                  "subject": "%s",
+                  "textContent": "%s"
+                }
+                """.formatted(
+                        escapeJson(senderEmail),
+                        escapeJson(email),
+                        escapeJson(subject),
+                        escapeJson(textContent)
+                );
+
+        try {
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create("https://api.brevo.com/v3/smtp/email"))
+                    .header("accept", "application/json")
+                    .header("api-key", brevoApiKey)
+                    .header("content-type", "application/json")
+                    .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
+                    .build();
+
+            HttpClient client = HttpClient.newHttpClient();
+
+            HttpResponse<String> response =
+                    client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            if (response.statusCode() < 200 || response.statusCode() >= 300) {
+                throw new RuntimeException(
+                        "Brevo email sending failed. HTTP status: "
+                                + response.statusCode()
+                                + ", response: "
+                                + response.body()
+                );
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to send password reset email", e);
+        }
+    }
+
+    private String escapeJson(String value) {
+        return value
+                .replace("\\", "\\\\")
+                .replace("\"", "\\\"")
+                .replace("\n", "\\n")
+                .replace("\r", "\\r");
     }
 }
