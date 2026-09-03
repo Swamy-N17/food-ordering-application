@@ -7,8 +7,9 @@ const API = {
     restaurant: (id) => `/restaurant/${id}`,
     restaurantMenu: (id) => `/restaurant/menuitem/${id}`,
 
-    addMenu: "/menuitem",
-    updateMenu: (id) => `/menuitem/${id}`,
+	addMenu: "/menuitem",
+	updateMenu: (id) => `/menuitem/${id}`,
+	deleteMenu: (id) => `/menuitem/${id}`,
 
     placeOrder: "/order/place",
     customerOrders: (id) => `/order/customer/${id}`,

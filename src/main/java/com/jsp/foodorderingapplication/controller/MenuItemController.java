@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,27 +46,37 @@ public class MenuItemController {
 	}
 
 	@PatchMapping("/{id}")
-	public ResponseEntity<ResponseStructure<String>> updatePriceAndAvailability(@RequestBody Map<String, Object>data,@PathVariable Integer id) {
+	public ResponseEntity<ResponseStructure<String>> updatePriceAndAvailability(@RequestBody Map<String, Object> data,
+			@PathVariable Integer id) {
 
-		return new ResponseEntity<>(menuItemService.updatePriceAndAvailability(data,id), HttpStatus.OK);
+		return new ResponseEntity<>(menuItemService.updatePriceAndAvailability(data, id), HttpStatus.OK);
 
 	}
+
 	@GetMapping("/sortbyprice/{fieldName}")
 	public ResponseEntity<ResponseStructure<List<MenuItem>>> sortByPrice(@PathVariable String fieldName) {
 		return new ResponseEntity<>(menuItemService.sortByPrice(fieldName), HttpStatus.OK);
 	}
+
 	@GetMapping("/name/{name}")
 	public ResponseEntity<ResponseStructure<List<MenuItem>>> getItemsByName(@PathVariable String name) {
 
-	    return new ResponseEntity<>(menuItemService.getItemsByName(name), HttpStatus.OK);
+		return new ResponseEntity<>(menuItemService.getItemsByName(name), HttpStatus.OK);
 	}
+
 	@GetMapping("/id/{restaurantId}")
-	public ResponseEntity<ResponseStructure<List<MenuItem>>> getAllItemsInRestaurant(@PathVariable Integer restaurantId) {
-		
+	public ResponseEntity<ResponseStructure<List<MenuItem>>> getAllItemsInRestaurant(
+			@PathVariable Integer restaurantId) {
+
 		return new ResponseEntity<>(menuItemService.getAllItemsInRestaurant(restaurantId), HttpStatus.OK);
 	}
-	
-	
 
+	@DeleteMapping("/menuitem/{id}")
+	public ResponseEntity<ResponseStructure<String>> deleteMenuItem(@PathVariable Integer id) {
+
+		ResponseStructure<String> response = menuItemService.deleteMenuItem(id);
+
+		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
 
 }

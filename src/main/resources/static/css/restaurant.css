@@ -511,3 +511,13 @@ th {
         font-size: 13px;
     }
 }
+
+/* Delete menu button */
+.delete-menu-btn {
+    color: var(--red);
+    border-color: var(--red);
+}
+
+.delete-menu-btn:hover {
+    background: #fdecec;
+}

@@ -17,6 +17,7 @@ import com.jsp.foodorderingapplication.exception.IdNotFoundException;
 import com.jsp.foodorderingapplication.exception.InvalidFieldException;
 import com.jsp.foodorderingapplication.exception.NoRecordAvailableException;
 import com.jsp.foodorderingapplication.repository.MenuItemRespository;
+import com.jsp.foodorderingapplication.repository.OrderItemRepository;
 import com.jsp.foodorderingapplication.repository.RestaurantRepository;
 
 @Service
@@ -28,24 +29,41 @@ public class MenuItemService {
 	@Autowired
 	private RestaurantRepository restaurantRepository;
 
+	@Autowired
+	private OrderItemRepository orderItemRepository;
+
 	public ResponseStructure<MenuItem> saveItems(MenuItem menuItem) {
 
 		ResponseStructure<MenuItem> res = new ResponseStructure<MenuItem>();
 
 		// Restaurant Validation
-		Optional<Restaurant> opt = restaurantRepository.findById(menuItem.getRestaurant().getRestaurantId());
-		if (opt.isEmpty())
-			throw new NoRecordAvailableException("Cannot add menu item. The specified restaurant does not exist");
+		Optional<Restaurant> opt = restaurantRepository
+				.findById(menuItem.getRestaurant().getRestaurantId());
 
-		// menuItem price validation
+		if (opt.isEmpty())
+			throw new NoRecordAvailableException(
+					"Cannot add menu item. The specified restaurant does not exist");
+
+		// Duplicate menu item validation
+		boolean duplicateItem = menuItemRepository
+				.existsByItemNameAndRestaurant_RestaurantId(
+						menuItem.getItemName(),
+						menuItem.getRestaurant().getRestaurantId());
+
+		if (duplicateItem)
+			throw new DataIntegrityViolationException(
+					"Menu item with the same name already exists for this restaurant.");
+
+		// Menu item price validation
 		if (menuItem.getPrice() == null || menuItem.getPrice() <= 0)
-			throw new DataIntegrityViolationException("Menu Item price cannot be negative.");
+			throw new DataIntegrityViolationException(
+					"Menu Item price cannot be negative.");
 
 		res.setData(menuItemRepository.save(menuItem));
-		res.setMessage("Menu Items Saved Sucessfully");
+		res.setMessage("Menu Items Saved Successfully");
 		res.setStatusCode(HttpStatus.CREATED.value());
-		return res;
 
+		return res;
 	}
 
 	public ResponseStructure<List<MenuItem>> fetchAllItems() {
@@ -56,115 +74,169 @@ public class MenuItemService {
 		if (items.isEmpty())
 			throw new NoRecordAvailableException("No Record Found");
 		else {
-              res.setData(items);
-              res.setStatusCode(HttpStatus.OK.value());
-              res.setMessage("Menu Items Fetched Successfully");
-              return res;
-		}
-	}
-
-	public  ResponseStructure<MenuItem> getItemById(Integer id) {
-		ResponseStructure<MenuItem> res = new ResponseStructure<MenuItem>();
-
-	
-		Optional<MenuItem> opt = menuItemRepository.findById(id);
-		if(opt.isPresent()) {
-			res.setData(opt.get());
-			res.setMessage("Menu Item With ID: "+ id +" Fetched Sucessfully");
+			res.setData(items);
 			res.setStatusCode(HttpStatus.OK.value());
+			res.setMessage("Menu Items Fetched Successfully");
 			return res;
 		}
-		else
-			throw new IdNotFoundException("Menu Item With ID: "+id+" Not Found");
 	}
-	
-	public ResponseStructure<String> updatePriceAndAvailability(Map<String, Object> data, Integer id) {
 
-	    ResponseStructure<String> res = new ResponseStructure<String>();
+	public ResponseStructure<MenuItem> getItemById(Integer id) {
 
-	    Optional<MenuItem> opt = menuItemRepository.findById(id);
+		ResponseStructure<MenuItem> res = new ResponseStructure<MenuItem>();
 
-	    if (opt.isPresent()) {
+		Optional<MenuItem> opt = menuItemRepository.findById(id);
 
-	        MenuItem menuItem = opt.get();
+		if (opt.isPresent()) {
+			res.setData(opt.get());
+			res.setMessage("Menu Item With ID: " + id + " Fetched Successfully");
+			res.setStatusCode(HttpStatus.OK.value());
+			return res;
+		} else
+			throw new IdNotFoundException("Menu Item With ID: " + id + " Not Found");
+	}
 
-	        for (Map.Entry<String, Object> entry : data.entrySet()) {
+	public ResponseStructure<String> updatePriceAndAvailability(
+			Map<String, Object> data, Integer id) {
 
-	            String key = entry.getKey();
-	            Object value = entry.getValue();
+		ResponseStructure<String> res = new ResponseStructure<String>();
 
-	            switch (key) {
+		Optional<MenuItem> opt = menuItemRepository.findById(id);
 
-	            case "price":
-	                if (!(value instanceof Number))
-                    throw new InvalidFieldException("Price must be a number.");
-                menuItem.setPrice(((Number) value).doubleValue());
-	                break;
+		if (opt.isPresent()) {
 
-	            case "availability":
-	                menuItem.setAvailability((Boolean) value);
-	                break;
+			MenuItem menuItem = opt.get();
 
-	            default:
-	                throw new InvalidFieldException("Invalid field name. Please provide a valid field.");
-	            }
-	        }
+			for (Map.Entry<String, Object> entry : data.entrySet()) {
 
-	        menuItemRepository.save(menuItem);
+				String key = entry.getKey();
+				Object value = entry.getValue();
 
-	        res.setData("Success");
-	        res.setMessage("MenuItem Record Updated Successfully");
-	        res.setStatusCode(HttpStatus.OK.value());
+				switch (key) {
 
-	        return res;
+				case "price":
+					if (!(value instanceof Number))
+						throw new InvalidFieldException("Price must be a number.");
 
-	    } else
-	        throw new IdNotFoundException("MenuItem With ID: " + id + " Not Found");
+					double price = ((Number) value).doubleValue();
+
+					if (price <= 0)
+						throw new InvalidFieldException("Price must be greater than zero.");
+
+					menuItem.setPrice(price);
+					break;
+
+				case "availability":
+					if (!(value instanceof Boolean))
+						throw new InvalidFieldException(
+								"Availability must be true or false.");
+
+					menuItem.setAvailability((Boolean) value);
+					break;
+
+				default:
+					throw new InvalidFieldException(
+							"Invalid field name. Please provide a valid field.");
+				}
+			}
+
+			menuItemRepository.save(menuItem);
+
+			res.setData("Success");
+			res.setMessage("MenuItem Record Updated Successfully");
+			res.setStatusCode(HttpStatus.OK.value());
+
+			return res;
+
+		} else
+			throw new IdNotFoundException(
+					"MenuItem With ID: " + id + " Not Found");
+	}
+
+	public ResponseStructure<String> deleteMenuItem(Integer id) {
+
+		ResponseStructure<String> res = new ResponseStructure<String>();
+
+		Optional<MenuItem> opt = menuItemRepository.findById(id);
+
+		if (opt.isEmpty())
+			throw new IdNotFoundException(
+					"MenuItem With ID: " + id + " Not Found");
+
+		// Do not delete menu items that are already used in orders
+		if (orderItemRepository.existsByMenuItem_MenuItemId(id))
+			throw new DataIntegrityViolationException(
+					"Cannot delete this menu item because it is already used in an order.");
+
+		menuItemRepository.deleteById(id);
+
+		res.setData("Success");
+		res.setMessage("MenuItem Deleted Successfully");
+		res.setStatusCode(HttpStatus.OK.value());
+
+		return res;
 	}
 
 	public ResponseStructure<List<MenuItem>> sortByPrice(String fieldName) {
-		ResponseStructure<List<MenuItem>> res = new ResponseStructure<List<MenuItem>>();
-		List<MenuItem> items = menuItemRepository.findAll(Sort.by(fieldName).ascending());
-		if(items.isEmpty())
+
+		ResponseStructure<List<MenuItem>> res =
+				new ResponseStructure<List<MenuItem>>();
+
+		List<MenuItem> items =
+				menuItemRepository.findAll(Sort.by(fieldName).ascending());
+
+		if (items.isEmpty())
 			throw new NoRecordAvailableException("No Records Found");
 		else {
 			res.setData(items);
-			res.setMessage("Menu Items Sorted by Price in Ascending Order Successfully");
-	        res.setStatusCode(HttpStatus.OK.value());
-
-	        return res;
-		}
-	}
-	public ResponseStructure<List<MenuItem>> getItemsByName(String itemName) {
-
-	    ResponseStructure<List<MenuItem>> res = new ResponseStructure<List<MenuItem>>();
-
-	    List<MenuItem> items = menuItemRepository.findByItemName(itemName);
-
-	    if (items.isEmpty()) {
-	        throw new IdNotFoundException("MenuItem With Name: " + itemName + " Not Found");
-	    }
-
-	    res.setData(items);
-	    res.setMessage("MenuItems Fetched Successfully");
-	    res.setStatusCode(HttpStatus.OK.value());
-
-	    return res;
-	}
-
-	public ResponseStructure<List<MenuItem>>  getAllItemsInRestaurant(Integer restaurantId) {
-
-	    ResponseStructure<List<MenuItem>> res = new ResponseStructure<List<MenuItem>>();
-		Optional<Restaurant> opt = restaurantRepository.findById(restaurantId);
-		if(opt.isPresent()) {
-			res.setData(opt.get().getMenuItem());
-			res.setMessage("Menu Items Available in Resturant With ID: "+restaurantId+" fetched Successfully ");
+			res.setMessage(
+					"Menu Items Sorted by Price in Ascending Order Successfully");
 			res.setStatusCode(HttpStatus.OK.value());
 
-		    return res;
+			return res;
 		}
-		else
-	        throw new IdNotFoundException("Restaurant With ID: " + restaurantId + " Not Found");
 	}
-	
+
+	public ResponseStructure<List<MenuItem>> getItemsByName(String itemName) {
+
+		ResponseStructure<List<MenuItem>> res =
+				new ResponseStructure<List<MenuItem>>();
+
+		List<MenuItem> items =
+				menuItemRepository.findByItemName(itemName);
+
+		if (items.isEmpty()) {
+			throw new IdNotFoundException(
+					"MenuItem With Name: " + itemName + " Not Found");
+		}
+
+		res.setData(items);
+		res.setMessage("MenuItems Fetched Successfully");
+		res.setStatusCode(HttpStatus.OK.value());
+
+		return res;
+	}
+
+	public ResponseStructure<List<MenuItem>> getAllItemsInRestaurant(
+			Integer restaurantId) {
+
+		ResponseStructure<List<MenuItem>> res =
+				new ResponseStructure<List<MenuItem>>();
+
+		Optional<Restaurant> opt =
+				restaurantRepository.findById(restaurantId);
+
+		if (opt.isPresent()) {
+			res.setData(opt.get().getMenuItem());
+			res.setMessage(
+					"Menu Items Available in Resturant With ID: "
+					+ restaurantId
+					+ " fetched Successfully");
+			res.setStatusCode(HttpStatus.OK.value());
+
+			return res;
+		} else
+			throw new IdNotFoundException(
+					"Restaurant With ID: " + restaurantId + " Not Found");
+	}
 }
