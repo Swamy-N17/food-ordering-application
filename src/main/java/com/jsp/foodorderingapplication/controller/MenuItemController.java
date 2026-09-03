@@ -71,7 +71,7 @@ public class MenuItemController {
 		return new ResponseEntity<>(menuItemService.getAllItemsInRestaurant(restaurantId), HttpStatus.OK);
 	}
 
-	@DeleteMapping("/menuitem/{id}")
+	@DeleteMapping("/{id}")
 	public ResponseEntity<ResponseStructure<String>> deleteMenuItem(@PathVariable Integer id) {
 
 		ResponseStructure<String> response = menuItemService.deleteMenuItem(id);
