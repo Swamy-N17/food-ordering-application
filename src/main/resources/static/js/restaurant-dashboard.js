@@ -425,12 +425,16 @@ window.deleteMenuItem = async function(id, itemName) {
             method: "DELETE"
         });
 
-        loadMenu();
+		await loadMenu();
 
-        setMessage(
-            document.getElementById("restaurantMessage"),
-            "Menu item deleted successfully."
-        );
+		setMessage(
+		    document.getElementById("restaurantMessage"),
+		    "Menu item deleted successfully."
+		);
+
+		setTimeout(() => {
+		    document.getElementById("restaurantMessage").textContent = "";
+		}, 3000);
 
     } catch (error) {
         setMessage(
